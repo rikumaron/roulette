@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>roulette</title>
+        <link rel="stylesheet" href="roulette.css">
+        <script src="jquery-3.4.1.min.js"></script>
+        <script>
+            
+            var num;
+            var number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+            var interval_id;
+            var rand;
+            var start_flag = false;
+            
+            function start_roulette() {
+                start_flag;
+                $("#box" + num).removeClass("stop")
+                $("#box" + num).addClass("used")
+                interval_id = setInterval(run_roulette, 50);
+                $('#start').prop('disabled', true);
+                $('#stop').prop('disabled', false);
+                $('#reset').prop('disabled', true);
+            }
+            
+            function run_roulette() {
+                $("#box" + num).removeClass('run');
+                rand = Math.floor(Math.random() * number.length);
+                num = number[rand];
+                $("#box" + num).addClass("run");
+            }
+            
+            function stop_roulette() {
+                clearInterval(interval_id);
+                $('#start').prop('disabled', false);
+                $('#stop').prop('disabled', true);
+                $('#reset').prop('disabled', false);
+                $("#box" + num).removeClass("run");
+                $("#box" + num).addClass("stop");
+                number.splice(rand, 1);
+                if (number.length === 0) {
+                    $('#start').prop('disabled', true);
+                }
+            }
+            
+            function reset_roulette() {
+                location.reload(run_roulette);
+            }
+            
+            $(function() {
+                $('#stop').prop('disabled', true);
+                $('#start').click(start_roulette);
+                $('#stop').click(stop_roulette);
+                $('#reset').click(reset_roulette);
+            })
+        </script>
+    </head>
+    <body>
+        <div id="frame">
+            <table id="roulette">
+                <tr align="center">
+                    <td id="box1">1</td>
+                    <td id="box2">2</td>
+                    <td id="box3">3</td>
+                    <td id="box4">4</td>
+                </tr>
+                <tr align="center">
+                    <td id="box5">5</td>
+                    <td id="box6">6</td>
+                    <td id="box7">7</td>
+                    <td id="box8">8</td>
+                </tr>
+                <tr align="center">
+                    <td id="box9">9</td>
+                    <td id="box10">10</td>
+                    <td id="box11">11</td>
+                    <td id="box12">12</td>
+                </tr>
+                <tr align="center">
+                    <td id="box13">13</td>
+                    <td id="box14">14</td>
+                    <td id="box15">15</td>
+                    <td id="box16">16</td>
+                </tr>
+            </table>
+            <div id="button">
+                <button id="start">スタート</button>
+                <button id="stop">ストップ</button>
+                <button id="reset">リセット</button>
+            </div>
+        </div>
+    </body>
+</html>
